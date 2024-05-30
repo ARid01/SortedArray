@@ -4,12 +4,12 @@
 #include <iostream>
 #include <vector>
 
-class SortedArray {
+template <typename T> class SortedArray {
 private:
-	std::vector<int> arr;
+	std::vector<T> arr;
 
 	//O(logn) - Works
-	int binarySearch(std::vector<int> v, int target) {
+	int binarySearch(std::vector<T> v, T target) {
 		int l = 0;
 		int r = v.size() - 1;
 		int m, e;
@@ -27,7 +27,7 @@ private:
 	}
 
 	//O(logn) - Works
-	int binarySearch_LeftInsert(std::vector<int> v, int value) {
+	int binarySearch_LeftInsert(std::vector<T> v, T value) {
 		int l = 0;
 		int r = v.size() - 1;
 		int m;
@@ -44,34 +44,34 @@ private:
 public:
 	//O(1) - Works
 	SortedArray() {
-		arr = std::vector<int>();
+		arr = std::vector<T>();
 	}
 
 	//O(n^2) - input loop * insertion - Works
-	SortedArray(std::vector<int> input) {
-		arr = std::vector<int>();
-		for (int& i : input) {
+	SortedArray(std::vector<T> input) {
+		arr = std::vector<T>();
+		for (T& i : input) {
 			insert(i);
 		}
 	}
 
 	//O(n) - Works
 	SortedArray(SortedArray& copy) {
-		arr = std::vector<int>(copy.getArray());
+		arr = std::vector<T>(copy.getArray());
 	}
 
 	//O(n) (from vector insert) - Works
-	void insert(int value) {
+	void insert(T value) {
 		arr.insert(arr.begin() + binarySearch_LeftInsert(arr, value), value);
 	}
 
 	//O(logn) - Works - Returns index or -1 if not found
-	int find(int value) {
+	int find(T value) {
 		return binarySearch(arr, value);
 	}
 
 	//O(n) (from vector erase) - Works
-	bool remove(int value) {
+	bool remove(T value) {
 		int ind = binarySearch(arr, value);
 		if (ind < 0 || ind >= arr.size()) return false;
 		else {
@@ -81,13 +81,13 @@ public:
 	}
 
 	//O(1) - Works
-	int valueAt(int index) {
+	T valueAt(int index) {
 		if (index < 0 || index >= arr.size()) return NULL;
 		else return arr[index];
 	}
 
 	//O(1) - Works
-	std::vector<int> getArray() {
+	std::vector<T> getArray() {
 		return arr;
 	}
 
@@ -112,7 +112,7 @@ public:
 	}
 
 	//O(n) - Works
-	static bool isSorted(std::vector<int>& v) {
+	static bool isSorted(std::vector<T>& v) {
 		for (int i = 0; i < v.size() - 1; i++) {
 			if (v[i] > v[i + 1]) return false;
 		}
@@ -120,5 +120,5 @@ public:
 	}
 
 	//O(1) - Works
-	int& operator[] (int i) { return arr[i]; }
+	T& operator[] (int i) { return arr[i]; }
 };
